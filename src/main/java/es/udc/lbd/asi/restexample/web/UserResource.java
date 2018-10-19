@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.udc.lbd.asi.restexample.model.domain.User;
 import es.udc.lbd.asi.restexample.model.service.UserService;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
 
 @RestController
 @RequestMapping("/api/users")
@@ -18,7 +18,7 @@ public class UserResource {
     private UserService userService;
 
     @GetMapping
-    public List<User> findAll() {
+    public List<UserDTO> findAll() {
         return userService.findAll();
     }
 }
