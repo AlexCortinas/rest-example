@@ -17,16 +17,19 @@ public class Post {
     
     private String body;
     
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User author;
 
     public Post() {
     }
 
-    public Post(String title, String body, User author) {
-        super();
+    public Post(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    public Post(String title, String body, User author) {
+        this(title, body);
         this.author = author;
     }
 
