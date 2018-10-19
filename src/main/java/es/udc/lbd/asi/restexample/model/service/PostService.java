@@ -24,10 +24,13 @@ public class PostService {
         return postDAO.findById(id);
     }
 
+    @Transactional(readOnly = false)
     public Post save(Post post) {
-        return postDAO.save(post);
+         postDAO.save(post);
+         return post;
     }
 
+    @Transactional(readOnly = false)
     public void deleteById(Long id) {
         postDAO.deleteById(id);
     }

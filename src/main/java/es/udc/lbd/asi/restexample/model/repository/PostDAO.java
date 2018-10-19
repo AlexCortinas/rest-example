@@ -9,7 +9,7 @@ public interface PostDAO {
 
     Post findById(Long id);
 
-    Post save(Post post);
+    void save(Post post);
 
     void deleteById(Long id);
 }
