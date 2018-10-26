@@ -14,10 +14,10 @@ import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 @Configuration
 public class DatabaseLoader {
     @Autowired
-    private UserDAO userService;
+    private UserDAO userDAO;
 
     @Autowired
-    private PostDAO postService;
+    private PostDAO postDAO;
 
     @Autowired
     private DatabaseLoader databaseLoader;
@@ -35,15 +35,15 @@ public class DatabaseLoader {
 
     @Transactional(readOnly = false, rollbackFor = Exception.class)
     public void loadData() {
-        userService.save(new User("Pepe"));
-        userService.save(new User("María"));
-        userService.save(new User("Laura"));
+        userDAO.save(new User("Pepe"));
+        userDAO.save(new User("María"));
+        userDAO.save(new User("Laura"));
 
-        postService.save(new Post("Título 1", "Texto del primer post", userService.findByName("Pepe")));
-        postService.save(new Post("Título 2", "Texto del segundo post", userService.findByName("María")));
-        postService.save(new Post("Título 3", "Texto del tercero post", userService.findByName("María")));
-        postService.save(new Post("Título 4", "Texto del cuarto post", userService.findByName("Laura")));
-        postService.save(new Post("Título 5", "Texto del quinto post", userService.findByName("Laura")));
-        postService.save(new Post("Título 6", "Texto del sexto post", userService.findByName("Laura")));
+        postDAO.save(new Post("Título 1", "Texto del primer post", userDAO.findByName("Pepe")));
+        postDAO.save(new Post("Título 2", "Texto del segundo post", userDAO.findByName("María")));
+        postDAO.save(new Post("Título 3", "Texto del tercero post", userDAO.findByName("María")));
+        postDAO.save(new Post("Título 4", "Texto del cuarto post", userDAO.findByName("Laura")));
+        postDAO.save(new Post("Título 5", "Texto del quinto post", userDAO.findByName("Laura")));
+        postDAO.save(new Post("Título 6", "Texto del sexto post", userDAO.findByName("Laura")));
     }
 }
