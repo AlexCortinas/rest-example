@@ -13,6 +13,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private Properties properties;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -30,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedOrigins("http://localhost:1234");
+                registry.addMapping("/**").allowedMethods("*").allowedOrigins(properties.getClientHost());
             }
         };
     }
