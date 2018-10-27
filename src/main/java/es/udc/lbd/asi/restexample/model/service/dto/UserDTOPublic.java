@@ -2,16 +2,16 @@ package es.udc.lbd.asi.restexample.model.service.dto;
 
 import es.udc.lbd.asi.restexample.model.domain.User;
 
-public class UserDTO {
+public class UserDTOPublic {
     private Long id;
-    private String name;
+    private String login;
 
-    public UserDTO() {
+    public UserDTOPublic() {
     }
 
-    public UserDTO(User user) {
+    public UserDTOPublic(User user) {
         this.id = user.getId();
-        this.name = user.getName();
+        this.login = user.getLogin();
     }
 
     public Long getId() {
@@ -22,11 +22,11 @@ public class UserDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

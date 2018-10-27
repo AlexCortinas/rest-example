@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,8 @@ public class PostService {
         return new PostDTO(postDAO.findById(id));
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')") // Con estas anotaciones evitamos que usuarios no autorizados accedan a
+                                           // ciertas funcionalidades
     @Transactional(readOnly = false)
     public PostDTO save(PostDTO post) {
         Post bdPost = new Post(post.getTitle(), post.getBody());
@@ -38,6 +41,7 @@ public class PostService {
         return new PostDTO(bdPost);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional(readOnly = false)
     public PostDTO update(PostDTO post) {
         Post bdPost = postDAO.findById(post.getId());
@@ -48,6 +52,7 @@ public class PostService {
         return new PostDTO(bdPost);
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @Transactional(readOnly = false)
     public void deleteById(Long id) {
         postDAO.deleteById(id);
