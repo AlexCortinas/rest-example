@@ -12,7 +12,7 @@ public class PostDTO {
     @NotEmpty
     private String body;
     @NotNull
-    private UserDTO author;
+    private UserDTOPublic author;
 
     public PostDTO() {
     }
@@ -21,7 +21,7 @@ public class PostDTO {
         this.id = post.getId();
         this.title = post.getTitle();
         this.body = post.getBody();
-        this.author = new UserDTO(post.getAuthor());
+        this.author = new UserDTOPublic(post.getAuthor());
     }
 
     public Long getId() {
@@ -48,11 +48,11 @@ public class PostDTO {
         this.body = body;
     }
 
-    public UserDTO getAuthor() {
+    public UserDTOPublic getAuthor() {
         return author;
     }
 
-    public void setAuthor(UserDTO author) {
+    public void setAuthor(UserDTOPublic author) {
         this.author = author;
     }
 }

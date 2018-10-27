@@ -2,6 +2,8 @@ package es.udc.lbd.asi.restexample.model.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,16 +15,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(unique = true)
-    private String name;
+    private String login;
+
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserAuthority authority;
 
     public User() {
     }
 
-    public User(String name) {
+    public User(String login) {
         super();
-        this.name = name;
+        this.login = login;
     }
 
     public Long getId() {
@@ -33,11 +40,27 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLogin() {
+        return login;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public UserAuthority getAuthority() {
+        return authority;
+    }
+
+    public void setAuthority(UserAuthority authority) {
+        this.authority = authority;
     }
 }

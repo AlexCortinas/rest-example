@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
-import es.udc.lbd.asi.restexample.model.service.dto.UserDTO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPublic;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -17,7 +17,7 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public List<UserDTO> findAll() {
-        return userDAO.findAll().stream().map(user -> new UserDTO(user)).collect(Collectors.toList());
+    public List<UserDTOPublic> findAll() {
+        return userDAO.findAll().stream().map(user -> new UserDTOPublic(user)).collect(Collectors.toList());
     }
 }

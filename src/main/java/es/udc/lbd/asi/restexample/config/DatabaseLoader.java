@@ -39,11 +39,12 @@ public class DatabaseLoader {
         userDAO.save(new User("María"));
         userDAO.save(new User("Laura"));
 
-        postDAO.save(new Post("Título 1", "Texto del primer post", userDAO.findByName("Pepe")));
-        postDAO.save(new Post("Título 2", "Texto del segundo post", userDAO.findByName("María")));
-        postDAO.save(new Post("Título 3", "Texto del tercero post", userDAO.findByName("María")));
-        postDAO.save(new Post("Título 4", "Texto del cuarto post", userDAO.findByName("Laura")));
-        postDAO.save(new Post("Título 5", "Texto del quinto post", userDAO.findByName("Laura")));
-        postDAO.save(new Post("Título 6", "Texto del sexto post", userDAO.findByName("Laura")));
+
+        postDAO.save(new Post("Título 1", "Texto del primer post", userDAO.findByLogin("pepe")));
+        postDAO.save(new Post("Título 2", "Texto del segundo post", userDAO.findByLogin("maria")));
+        postDAO.save(new Post("Título 3", "Texto del tercero post", userDAO.findByLogin("maria")));
+        postDAO.save(new Post("Título 4", "Texto del cuarto post", userDAO.findByLogin("maria")));
+        postDAO.save(new Post("Título 5", "Texto del quinto post", userDAO.findByLogin("pepe")));
+        postDAO.save(new Post("Título 6", "Texto del sexto post", userDAO.findByLogin("pepe")));
     }
 }
