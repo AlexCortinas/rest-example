@@ -27,11 +27,6 @@ public class User {
     public User() {
     }
 
-    public User(String login) {
-        super();
-        this.login = login;
-    }
-
     public Long getId() {
         return id;
     }
