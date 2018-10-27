@@ -12,7 +12,9 @@ import es.udc.lbd.asi.restexample.model.domain.User;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginExistsException;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
+import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPrivate;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPublic;
+import es.udc.lbd.asi.restexample.security.SecurityUtils;
 
 @Service
 @Transactional(readOnly = true, rollbackFor = Exception.class)
@@ -48,5 +50,13 @@ public class UserService {
         }
 
         userDAO.save(user);
+    }
+
+    public UserDTOPrivate getCurrentUserWithAuthority() {
+        String currentUserLogin = SecurityUtils.getCurrentUserLogin();
+        if (currentUserLogin != null) {
+            return new UserDTOPrivate(userDAO.findByLogin(currentUserLogin));
+        }
+        return null;
     }
 }
