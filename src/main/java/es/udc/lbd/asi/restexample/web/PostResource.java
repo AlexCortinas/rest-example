@@ -53,7 +53,7 @@ public class PostResource {
         if (id != post.getId()) {
             throw new IdAndBodyNotMatchingOnUpdateException(Post.class);
         }
-        return postService.save(post);
+        return postService.update(post);
     }
 
     @DeleteMapping("/{id}")

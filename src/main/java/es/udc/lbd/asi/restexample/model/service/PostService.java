@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Post;
+import es.udc.lbd.asi.restexample.model.domain.Tag;
 import es.udc.lbd.asi.restexample.model.repository.PostDAO;
+import es.udc.lbd.asi.restexample.model.repository.TagDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.PostDTO;
 
@@ -22,6 +24,9 @@ public class PostService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private TagDAO tagDAO;
 
     public List<PostDTO> findAll() {
         return postDAO.findAll().stream().map(post -> new PostDTO(post)).collect(Collectors.toList());
@@ -37,6 +42,9 @@ public class PostService {
     public PostDTO save(PostDTO post) {
         Post bdPost = new Post(post.getTitle(), post.getBody());
         bdPost.setAuthor(userDAO.findById(post.getAuthor().getId()));
+        post.getTags().forEach(tag -> {
+            bdPost.getTags().add(tagDAO.findById(tag.getId()));
+        });
         postDAO.save(bdPost);
         return new PostDTO(bdPost);
     }
@@ -48,6 +56,10 @@ public class PostService {
         bdPost.setTitle(post.getTitle());
         bdPost.setBody(post.getBody());
         bdPost.setAuthor(userDAO.findById(post.getAuthor().getId()));
+        bdPost.getTags().clear();
+        post.getTags().forEach(tag -> {
+            bdPost.getTags().add(tagDAO.findById(tag.getId()));
+        });
         postDAO.save(bdPost);
         return new PostDTO(bdPost);
     }

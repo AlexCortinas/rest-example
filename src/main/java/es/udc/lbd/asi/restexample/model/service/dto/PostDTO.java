@@ -1,5 +1,9 @@
 package es.udc.lbd.asi.restexample.model.service.dto;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -13,6 +17,7 @@ public class PostDTO {
     private String body;
     @NotNull
     private UserDTOPublic author;
+    private List<TagDTO> tags;
 
     public PostDTO() {
     }
@@ -22,6 +27,11 @@ public class PostDTO {
         this.title = post.getTitle();
         this.body = post.getBody();
         this.author = new UserDTOPublic(post.getAuthor());
+        this.tags = new ArrayList<>();
+        post.getTags().forEach(t -> {
+            this.tags.add(new TagDTO(t));
+        });
+        this.tags.sort(Comparator.comparing(TagDTO::getName));
     }
 
     public Long getId() {
@@ -54,5 +64,13 @@ public class PostDTO {
 
     public void setAuthor(UserDTOPublic author) {
         this.author = author;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
     }
 }

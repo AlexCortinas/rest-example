@@ -1,10 +1,14 @@
 package es.udc.lbd.asi.restexample.model.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -12,13 +16,16 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String title;
-    
+
     private String body;
-    
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private User author;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<Tag> tags = new HashSet<>();
 
     public Post() {
     }
@@ -63,5 +70,13 @@ public class Post {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 }
