@@ -13,28 +13,30 @@ import es.udc.lbd.asi.restexample.web.exception.ResourceException;
 
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
-    private final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
+  private final Logger logger = LoggerFactory
+      .getLogger(GlobalControllerExceptionHandler.class);
 
-    @ExceptionHandler(ResourceException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ResponseBody
-    public ErrorDTO resourceExceptionHandler(ResourceException e) {
-        logger.error(e.getMessage(), e);
-        return new ErrorDTO(e.getMessage());
-    }
+  @ExceptionHandler(ResourceException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public ErrorDTO resourceExceptionHandler(ResourceException e) {
+    logger.error(e.getMessage(), e);
+    return new ErrorDTO(e.getMessage());
+  }
 
-    @ExceptionHandler(CredentialsAreNotValidException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ResponseBody
-    public ErrorDTO badCredentialsExceptionHandler(CredentialsAreNotValidException e) {
-        return new ErrorDTO("Bad Credentials");
-    }
+  @ExceptionHandler(CredentialsAreNotValidException.class)
+  @ResponseStatus(HttpStatus.UNAUTHORIZED)
+  @ResponseBody
+  public ErrorDTO badCredentialsExceptionHandler(
+      CredentialsAreNotValidException e) {
+    return new ErrorDTO("Bad Credentials");
+  }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ResponseBody
-    public ErrorDTO exceptionHandler(Exception e) {
-        logger.error(e.getMessage(), e);
-        return new ErrorDTO(e.getMessage());
-    }
+  @ExceptionHandler(Exception.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public ErrorDTO exceptionHandler(Exception e) {
+    logger.error(e.getMessage(), e);
+    return new ErrorDTO(e.getMessage());
+  }
 }

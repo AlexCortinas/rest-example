@@ -20,43 +20,47 @@ import es.udc.lbd.asi.restexample.security.SecurityUtils;
 @Transactional(readOnly = true, rollbackFor = Exception.class)
 public class UserService {
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private UserDAO userDAO;
+  @Autowired
+  private UserDAO userDAO;
 
-    public List<UserDTOPublic> findAll() {
-        return userDAO.findAll().stream().map(user -> new UserDTOPublic(user)).collect(Collectors.toList());
+  public List<UserDTOPublic> findAll() {
+    return userDAO.findAll().stream().map(user -> new UserDTOPublic(user))
+        .collect(Collectors.toList());
+  }
+
+  public void registerUser(String login, String password)
+      throws UserLoginExistsException {
+    registerUser(login, password, false);
+  }
+
+  public void registerUser(String login, String password, boolean isAdmin)
+      throws UserLoginExistsException {
+    if (userDAO.findByLogin(login) != null) {
+      throw new UserLoginExistsException(
+          "User login " + login + " already exists");
     }
 
-    public void registerUser(String login, String password) throws UserLoginExistsException {
-        registerUser(login, password, false);
+    User user = new User();
+    String encryptedPassword = passwordEncoder.encode(password);
+
+    user.setLogin(login);
+    user.setPassword(encryptedPassword);
+    user.setAuthority(UserAuthority.USER);
+    if (isAdmin) {
+      user.setAuthority(UserAuthority.ADMIN);
     }
 
-    public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
-        if (userDAO.findByLogin(login) != null) {
-            throw new UserLoginExistsException("User login " + login + " already exists");
-        }
+    userDAO.save(user);
+  }
 
-        User user = new User();
-        String encryptedPassword = passwordEncoder.encode(password);
-
-        user.setLogin(login);
-        user.setPassword(encryptedPassword);
-        user.setAuthority(UserAuthority.USER);
-        if (isAdmin) {
-            user.setAuthority(UserAuthority.ADMIN);
-        }
-
-        userDAO.save(user);
+  public UserDTOPrivate getCurrentUserWithAuthority() {
+    String currentUserLogin = SecurityUtils.getCurrentUserLogin();
+    if (currentUserLogin != null) {
+      return new UserDTOPrivate(userDAO.findByLogin(currentUserLogin));
     }
-
-    public UserDTOPrivate getCurrentUserWithAuthority() {
-        String currentUserLogin = SecurityUtils.getCurrentUserLogin();
-        if (currentUserLogin != null) {
-            return new UserDTOPrivate(userDAO.findByLogin(currentUserLogin));
-        }
-        return null;
-    }
+    return null;
+  }
 }

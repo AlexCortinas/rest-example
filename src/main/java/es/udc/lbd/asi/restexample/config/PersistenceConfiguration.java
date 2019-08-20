@@ -14,16 +14,17 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 public class PersistenceConfiguration {
 
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
+  @Autowired
+  private EntityManagerFactory entityManagerFactory;
 
-    @Bean
-    public PlatformTransactionManager hibernateTransactionManager() {
-        if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
-            throw new NullPointerException("factory is not a hibernate factory");
-        }
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(entityManagerFactory.unwrap(SessionFactory.class));
-        return transactionManager;
+  @Bean
+  public PlatformTransactionManager hibernateTransactionManager() {
+    if (entityManagerFactory.unwrap(SessionFactory.class) == null) {
+      throw new NullPointerException("factory is not a hibernate factory");
     }
+    HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+    transactionManager
+        .setSessionFactory(entityManagerFactory.unwrap(SessionFactory.class));
+    return transactionManager;
+  }
 }

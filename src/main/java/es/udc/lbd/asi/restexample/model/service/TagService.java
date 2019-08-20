@@ -16,11 +16,11 @@ import es.udc.lbd.asi.restexample.model.service.dto.TagDTO;
 @Transactional(readOnly = true)
 public class TagService {
 
-    @Autowired
-    private TagDAO tagDAO;
+  @Autowired
+  private TagDAO tagDAO;
 
-    public List<TagDTO> findAll() {
-        return tagDAO.findAll().stream().sorted(Comparator.comparing(Tag::getName)).map(TagDTO::new)
-                .collect(Collectors.toList());
-    }
+  public List<TagDTO> findAll() {
+    return tagDAO.findAll().stream().sorted(Comparator.comparing(Tag::getName))
+        .map(TagDTO::new).collect(Collectors.toList());
+  }
 }

@@ -8,22 +8,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class SecurityUtils {
-    private static final Logger logger = LoggerFactory.getLogger(SecurityUtils.class);
+  private static final Logger logger = LoggerFactory
+      .getLogger(SecurityUtils.class);
 
-    private SecurityUtils() {
-    }
+  private SecurityUtils() {
+  }
 
-    public static String getCurrentUserLogin() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        Authentication authentication = securityContext.getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
-                return springSecurityUser.getUsername();
-            } else {
-                logger.error("Authentication is not UserDetails! but {}", authentication.getClass().toString());
-            }
-        }
-        return null;
+  public static String getCurrentUserLogin() {
+    SecurityContext securityContext = SecurityContextHolder.getContext();
+    Authentication authentication = securityContext.getAuthentication();
+    if (authentication != null) {
+      if (authentication.getPrincipal() instanceof UserDetails) {
+        UserDetails springSecurityUser = (UserDetails) authentication
+            .getPrincipal();
+        return springSecurityUser.getUsername();
+      } else {
+        logger.error("Authentication is not UserDetails! but {}",
+            authentication.getClass().toString());
+      }
     }
+    return null;
+  }
 }

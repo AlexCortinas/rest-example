@@ -5,11 +5,11 @@ import java.util.List;
 import es.udc.lbd.asi.restexample.model.domain.Post;
 
 public interface PostDAO {
-    List<Post> findAll();
+  List<Post> findAll();
 
-    Post findById(Long id);
+  Post findById(Long id);
 
-    void save(Post post);
+  void save(Post post);
 
-    void deleteById(Long id);
+  void deleteById(Long id);
 }

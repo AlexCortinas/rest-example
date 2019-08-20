@@ -14,11 +14,11 @@ import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPublic;
 @RequestMapping("/api/users")
 public class UserResource {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @GetMapping
-    public List<UserDTOPublic> findAll() {
-        return userService.findAll();
-    }
+  @GetMapping
+  public List<UserDTOPublic> findAll() {
+    return userService.findAll();
+  }
 }

@@ -6,9 +6,9 @@ import es.udc.lbd.asi.restexample.model.domain.Tag;
 
 public interface TagDAO {
 
-    void save(Tag tag);
+  void save(Tag tag);
 
-    List<Tag> findAll();
+  List<Tag> findAll();
 
-    Tag findById(Long id);
+  Tag findById(Long id);
 }

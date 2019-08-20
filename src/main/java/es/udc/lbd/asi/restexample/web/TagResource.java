@@ -14,11 +14,11 @@ import es.udc.lbd.asi.restexample.model.service.dto.TagDTO;
 @RequestMapping("/api/tags")
 public class TagResource {
 
-    @Autowired
-    private TagService tagService;
+  @Autowired
+  private TagService tagService;
 
-    @GetMapping
-    public List<TagDTO> findAll() {
-        return tagService.findAll();
-    }
+  @GetMapping
+  public List<TagDTO> findAll() {
+    return tagService.findAll();
+  }
 }

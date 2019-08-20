@@ -5,31 +5,31 @@ import javax.validation.constraints.NotEmpty;
 import es.udc.lbd.asi.restexample.model.domain.Tag;
 
 public class TagDTO {
-    private Long id;
-    @NotEmpty
-    private String name;
-    
-    public TagDTO() {
-    }
+  private Long id;
+  @NotEmpty
+  private String name;
 
-    public TagDTO(Tag tag) {
-        this.id = tag.getId();
-        this.name = tag.getName();
-    }
+  public TagDTO() {
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public TagDTO(Tag tag) {
+    this.id = tag.getId();
+    this.name = tag.getName();
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

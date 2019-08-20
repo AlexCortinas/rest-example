@@ -13,49 +13,49 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(unique = true)
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
-    private Set<Post> posts = new HashSet<>();
+  @Column(unique = true)
+  private String name;
 
-    public Tag() {
-    }
+  @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+  private Set<Post> posts = new HashSet<>();
 
-    public Tag(String name) {
-        this.name = name;
-    }
+  public Tag() {
+  }
 
-    public Tag(Long id) {
-        this.id = id;
-    }
+  public Tag(String name) {
+    this.name = name;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public Tag(Long id) {
+    this.id = id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Set<Post> getPosts() {
-        return posts;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void setPosts(Set<Post> posts) {
-        this.posts = posts;
-    }
+  public Set<Post> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(Set<Post> posts) {
+    this.posts = posts;
+  }
 
 }

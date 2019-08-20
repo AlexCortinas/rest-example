@@ -36,42 +36,45 @@ import es.udc.lbd.asi.restexample.web.exception.CredentialsAreNotValidException;
 @RestController
 @RequestMapping("/api")
 public class AccountResource {
-    private final Logger logger = LoggerFactory.getLogger(AccountResource.class);
+  private final Logger logger = LoggerFactory.getLogger(AccountResource.class);
 
-    @Autowired
-    private TokenProvider tokenProvider;
+  @Autowired
+  private TokenProvider tokenProvider;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+  @Autowired
+  private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @PostMapping("/authenticate")
-    public JWTToken authenticate(@Valid @RequestBody LoginDTO loginDTO) throws CredentialsAreNotValidException {
+  @PostMapping("/authenticate")
+  public JWTToken authenticate(@Valid @RequestBody LoginDTO loginDTO)
+      throws CredentialsAreNotValidException {
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                loginDTO.getLogin(), loginDTO.getPassword());
-        try {
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = tokenProvider.createToken(authentication);
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
-            return new JWTToken(jwt);
-        } catch (AuthenticationException e) {
-            logger.warn(e.getMessage(), e);
-            throw new CredentialsAreNotValidException(e.getMessage());
-        }
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        loginDTO.getLogin(), loginDTO.getPassword());
+    try {
+      Authentication authentication = authenticationManager
+          .authenticate(authenticationToken);
+      SecurityContextHolder.getContext().setAuthentication(authentication);
+      String jwt = tokenProvider.createToken(authentication);
+      HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
+      return new JWTToken(jwt);
+    } catch (AuthenticationException e) {
+      logger.warn(e.getMessage(), e);
+      throw new CredentialsAreNotValidException(e.getMessage());
     }
+  }
 
-    @GetMapping("/account")
-    public UserDTOPrivate getAccount() {
-        return userService.getCurrentUserWithAuthority();
-    }
+  @GetMapping("/account")
+  public UserDTOPrivate getAccount() {
+    return userService.getCurrentUserWithAuthority();
+  }
 
-    @PostMapping("/register")
-    public void registerAccount(@Valid @RequestBody UserDTOPrivate account) throws UserLoginExistsException {
-        userService.registerUser(account.getLogin(), account.getPassword());
-    }
+  @PostMapping("/register")
+  public void registerAccount(@Valid @RequestBody UserDTOPrivate account)
+      throws UserLoginExistsException {
+    userService.registerUser(account.getLogin(), account.getPassword());
+  }
 }

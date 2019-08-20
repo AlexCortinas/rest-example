@@ -27,46 +27,49 @@ import es.udc.lbd.asi.restexample.web.exception.RequestBodyNotValidException;
 @RequestMapping("/api/posts")
 public class PostResource {
 
-    @Autowired
-    private PostService postService;
+  @Autowired
+  private PostService postService;
 
-    @GetMapping
-    public List<PostDTO> findAll() {
-        return postService.findAll();
-    }
+  @GetMapping
+  public List<PostDTO> findAll() {
+    return postService.findAll();
+  }
 
-    @GetMapping("/{id}")
-    public PostDTO findOne(@PathVariable Long id) {
-        return postService.findById(id);
-    }
+  @GetMapping("/{id}")
+  public PostDTO findOne(@PathVariable Long id) {
+    return postService.findById(id);
+  }
 
-    @PostMapping
-    public PostDTO save(@RequestBody @Valid PostDTO post, Errors errors) throws RequestBodyNotValidException {
-        errorHandler(errors);
-        return postService.save(post);
-    }
+  @PostMapping
+  public PostDTO save(@RequestBody @Valid PostDTO post, Errors errors)
+      throws RequestBodyNotValidException {
+    errorHandler(errors);
+    return postService.save(post);
+  }
 
-    @PutMapping("/{id}")
-    public PostDTO update(@PathVariable Long id, @RequestBody @Valid PostDTO post, Errors errors)
-            throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException {
-        errorHandler(errors);
-        if (id != post.getId()) {
-            throw new IdAndBodyNotMatchingOnUpdateException(Post.class);
-        }
-        return postService.update(post);
+  @PutMapping("/{id}")
+  public PostDTO update(@PathVariable Long id, @RequestBody @Valid PostDTO post,
+      Errors errors) throws IdAndBodyNotMatchingOnUpdateException,
+      RequestBodyNotValidException {
+    errorHandler(errors);
+    if (id != post.getId()) {
+      throw new IdAndBodyNotMatchingOnUpdateException(Post.class);
     }
+    return postService.update(post);
+  }
 
-    @DeleteMapping("/{id}")
-    public void delete(@RequestParam Long id) {
-        postService.deleteById(id);
-    }
+  @DeleteMapping("/{id}")
+  public void delete(@RequestParam Long id) {
+    postService.deleteById(id);
+  }
 
-    private void errorHandler(Errors errors) throws RequestBodyNotValidException {
-        if (errors.hasErrors()) {
-            String errorMsg = errors.getFieldErrors().stream()
-                    .map(fe -> String.format("%s.%s %s", fe.getObjectName(), fe.getField(), fe.getDefaultMessage()))
-                    .collect(Collectors.joining("; "));
-            throw new RequestBodyNotValidException(errorMsg);
-        }
+  private void errorHandler(Errors errors) throws RequestBodyNotValidException {
+    if (errors.hasErrors()) {
+      String errorMsg = errors.getFieldErrors().stream()
+          .map(fe -> String.format("%s.%s %s", fe.getObjectName(),
+              fe.getField(), fe.getDefaultMessage()))
+          .collect(Collectors.joining("; "));
+      throw new RequestBodyNotValidException(errorMsg);
     }
+  }
 }

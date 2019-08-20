@@ -29,82 +29,76 @@ import es.udc.lbd.asi.restexample.security.TokenProvider;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private Properties properties;
+  @Autowired
+  private Properties properties;
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+  @Autowired
+  private MyUserDetailsService myUserDetailsService;
 
-    @Autowired
-    private MyUnauthorizedEntryPoint myUnauthorizedEntryPoint;
+  @Autowired
+  private MyUnauthorizedEntryPoint myUnauthorizedEntryPoint;
 
-    @Autowired
-    private MyAccessDeniedHandler myAccessDeniedHandler;
+  @Autowired
+  private MyAccessDeniedHandler myAccessDeniedHandler;
 
-    @Autowired
-    private TokenProvider tokenProvider;
-    
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+  @Autowired
+  private TokenProvider tokenProvider;
+
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+  }
+
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    // @formatter:off
+    http.csrf().disable().exceptionHandling()
+        .authenticationEntryPoint(myUnauthorizedEntryPoint)
+        .accessDeniedHandler(myAccessDeniedHandler).and().headers()
+        .frameOptions().disable().and().sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+        .authorizeRequests().antMatchers("/api/authenticate").permitAll()
+        .antMatchers(HttpMethod.POST, "/api/register").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+        .antMatchers("/**").authenticated().and()
+        .apply(securityConfigurerAdapter());;
+    // @formatter:on
+  }
+
+  @Bean
+  public WebMvcConfigurer corsConfigurer() {
+    return new WebMvcConfigurer() {
+      @Override
+      public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedMethods("*")
+            .allowedOrigins(properties.getClientHost());
+      }
+    };
+  }
+
+  @Autowired
+  public void configureAuth(AuthenticationManagerBuilder auth) {
+    try {
+      auth.userDetailsService(myUserDetailsService)
+          .passwordEncoder(passwordEncoder());
+    } catch (Exception e) {
+      throw new BeanInitializationException(
+          "SecurityConfiguration.configureAuth failed", e);
     }
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        // @formatter:off
-        http
-            .csrf()
-            .disable()
-            .exceptionHandling()
-            .authenticationEntryPoint(myUnauthorizedEntryPoint)
-            .accessDeniedHandler(myAccessDeniedHandler)
-        .and()
-            .headers().frameOptions().disable()
-        .and()
-            .sessionManagement()
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-            .authorizeRequests()
-            .antMatchers("/api/authenticate").permitAll()
-            .antMatchers(HttpMethod.POST, "/api/register").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-            .antMatchers("/**").authenticated()
-        .and()
-            .apply(securityConfigurerAdapter());;
-        // @formatter:on
-    }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*").allowedOrigins(properties.getClientHost());
-            }
-        };
-    }
-
-    @Autowired
-    public void configureAuth(AuthenticationManagerBuilder auth) {
-        try {
-            auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
-        } catch (Exception e) {
-            throw new BeanInitializationException("SecurityConfiguration.configureAuth failed", e);
-        }
-    }
-
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
-    }
+  private JWTConfigurer securityConfigurerAdapter() {
+    return new JWTConfigurer(tokenProvider);
+  }
 }

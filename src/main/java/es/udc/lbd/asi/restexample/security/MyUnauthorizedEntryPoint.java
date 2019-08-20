@@ -14,13 +14,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyUnauthorizedEntryPoint implements AuthenticationEntryPoint {
-    private final Logger logger = LoggerFactory.getLogger(MyUnauthorizedEntryPoint.class);
+  private final Logger logger = LoggerFactory
+      .getLogger(MyUnauthorizedEntryPoint.class);
 
-    @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response,
-            AuthenticationException authException) throws IOException, ServletException {
+  @Override
+  public void commence(HttpServletRequest request, HttpServletResponse response,
+      AuthenticationException authException)
+      throws IOException, ServletException {
 
-        logger.debug("Rejecting access");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized Entry");
-    }
+    logger.debug("Rejecting access");
+    response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+        "Unauthorized Entry");
+  }
 }
