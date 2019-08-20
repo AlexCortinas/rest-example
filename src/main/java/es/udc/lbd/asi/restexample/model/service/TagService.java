@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Tag;
-import es.udc.lbd.asi.restexample.model.repository.PostDAO;
 import es.udc.lbd.asi.restexample.model.repository.TagDAO;
 import es.udc.lbd.asi.restexample.model.service.dto.TagDTO;
 

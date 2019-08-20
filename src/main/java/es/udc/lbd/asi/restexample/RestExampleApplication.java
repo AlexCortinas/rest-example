@@ -6,9 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableAutoConfiguration
 @SpringBootApplication
-public class EjemploRestApplication {
+public class RestExampleApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(EjemploRestApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(RestExampleApplication.class, args);
+	}
+
 }
