@@ -64,15 +64,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     // @formatter:off
     http.csrf().disable().exceptionHandling()
-        .authenticationEntryPoint(myUnauthorizedEntryPoint)
-        .accessDeniedHandler(myAccessDeniedHandler).and().headers()
-        .frameOptions().disable().and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-        .authorizeRequests().antMatchers("/api/authenticate").permitAll()
-        .antMatchers(HttpMethod.POST, "/api/register").permitAll()
-        .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-        .antMatchers("/**").authenticated().and()
-        .apply(securityConfigurerAdapter());;
+      .authenticationEntryPoint(myUnauthorizedEntryPoint)
+      .accessDeniedHandler(myAccessDeniedHandler).and().headers()
+      .frameOptions().disable().and().sessionManagement()
+      .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+      .authorizeRequests().antMatchers("/api/authenticate").permitAll()
+      .antMatchers(HttpMethod.POST, "/api/register").permitAll()
+      .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+      .antMatchers("/**").authenticated().and()
+      .apply(securityConfigurerAdapter());
     // @formatter:on
   }
 
