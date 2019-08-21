@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.udc.lbd.asi.restexample.model.domain.Post;
+import es.udc.lbd.asi.restexample.model.exception.NotFoundException;
 import es.udc.lbd.asi.restexample.model.service.PostService;
 import es.udc.lbd.asi.restexample.model.service.dto.PostDTO;
 import es.udc.lbd.asi.restexample.web.exception.IdAndBodyNotMatchingOnUpdateException;
@@ -36,7 +37,7 @@ public class PostResource {
   }
 
   @GetMapping("/{id}")
-  public PostDTO findOne(@PathVariable Long id) {
+  public PostDTO findOne(@PathVariable Long id) throws NotFoundException {
     return postService.findById(id);
   }
 

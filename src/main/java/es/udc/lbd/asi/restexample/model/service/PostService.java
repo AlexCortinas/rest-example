@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Post;
+import es.udc.lbd.asi.restexample.model.exception.NotFoundException;
 import es.udc.lbd.asi.restexample.model.repository.PostDAO;
 import es.udc.lbd.asi.restexample.model.repository.TagDAO;
 import es.udc.lbd.asi.restexample.model.repository.UserDAO;
@@ -32,7 +33,11 @@ public class PostService {
         .collect(Collectors.toList());
   }
 
-  public PostDTO findById(Long id) {
+  public PostDTO findById(Long id) throws NotFoundException {
+    Post post = postDAO.findById(id);
+    if (post == null) {
+      throw new NotFoundException("post with id " + id + " not found!");
+    }
     return new PostDTO(postDAO.findById(id));
   }
 
