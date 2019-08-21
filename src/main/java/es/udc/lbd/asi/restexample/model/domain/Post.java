@@ -3,6 +3,7 @@ package es.udc.lbd.asi.restexample.model.domain;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ public class Post {
 
   private String title;
 
+  @Column(length=10485760)
   private String body;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
