@@ -57,5 +57,4 @@ public class Tag {
   public void setPosts(Set<Post> posts) {
     this.posts = posts;
   }
-
 }

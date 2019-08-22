@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 public class LoginDTO {
   @NotEmpty
   private String login;
+
   @NotEmpty
   @Size(min = 4)
   private String password;

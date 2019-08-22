@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Post;
 import es.udc.lbd.asi.restexample.model.exception.NotFoundException;
-import es.udc.lbd.asi.restexample.model.repository.PostDAO;
-import es.udc.lbd.asi.restexample.model.repository.TagDAO;
-import es.udc.lbd.asi.restexample.model.repository.UserDAO;
+import es.udc.lbd.asi.restexample.model.repository.PostDao;
+import es.udc.lbd.asi.restexample.model.repository.TagDao;
+import es.udc.lbd.asi.restexample.model.repository.UserDao;
 import es.udc.lbd.asi.restexample.model.service.dto.PostDTO;
 
 @Service
@@ -20,17 +20,16 @@ import es.udc.lbd.asi.restexample.model.service.dto.PostDTO;
 public class PostService {
 
   @Autowired
-  private PostDAO postDAO;
+  private PostDao postDAO;
 
   @Autowired
-  private UserDAO userDAO;
+  private UserDao userDAO;
 
   @Autowired
-  private TagDAO tagDAO;
+  private TagDao tagDAO;
 
   public List<PostDTO> findAll() {
-    return postDAO.findAll().stream().map(post -> new PostDTO(post))
-        .collect(Collectors.toList());
+    return postDAO.findAll().stream().map(post -> new PostDTO(post)).collect(Collectors.toList());
   }
 
   public PostDTO findById(Long id) throws NotFoundException {
@@ -41,17 +40,17 @@ public class PostService {
     return new PostDTO(postDAO.findById(id));
   }
 
-  @PreAuthorize("hasAuthority('ADMIN')") // Con estas anotaciones evitamos que
-                                         // usuarios no autorizados accedan a
-                                         // ciertas funcionalidades
+  // Con estas anotaciones evitamos que usuarios no autorizados accedan a ciertas
+  // funcionalidades
+  @PreAuthorize("hasAuthority('ADMIN')")
   @Transactional(readOnly = false)
-  public PostDTO save(PostDTO post) {
+  public PostDTO create(PostDTO post) {
     Post bdPost = new Post(post.getTitle(), post.getBody());
     bdPost.setAuthor(userDAO.findById(post.getAuthor().getId()));
     post.getTags().forEach(tag -> {
       bdPost.getTags().add(tagDAO.findById(tag.getId()));
     });
-    postDAO.save(bdPost);
+    postDAO.create(bdPost);
     return new PostDTO(bdPost);
   }
 
@@ -66,7 +65,7 @@ public class PostService {
     post.getTags().forEach(tag -> {
       bdPost.getTags().add(tagDAO.findById(tag.getId()));
     });
-    postDAO.save(bdPost);
+    postDAO.update(bdPost);
     return new PostDTO(bdPost);
   }
 

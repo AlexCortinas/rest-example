@@ -4,12 +4,12 @@ import java.util.List;
 
 import es.udc.lbd.asi.restexample.model.domain.User;
 
-public interface UserDAO {
+public interface UserDao {
   List<User> findAll();
 
-  void save(User user);
+  User findById(Long id);
 
   User findByLogin(String login);
 
-  User findById(Long id);
+  void create(User user);
 }

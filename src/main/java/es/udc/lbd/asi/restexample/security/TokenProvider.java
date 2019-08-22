@@ -25,32 +25,25 @@ public class TokenProvider {
   private Properties properties;
 
   public boolean validateToken(String authToken) {
-    Jwts.parser().setSigningKey(properties.getJwtSecretKey())
-        .parseClaimsJws(authToken);
+    Jwts.parser().setSigningKey(properties.getJwtSecretKey()).parseClaimsJws(authToken);
     return true;
   }
 
   public Authentication getAuthentication(String authToken) {
-    Claims claims = Jwts.parser().setSigningKey(properties.getJwtSecretKey())
-        .parseClaimsJws(authToken).getBody();
-    GrantedAuthority authority = new SimpleGrantedAuthority(
-        claims.get(AUTHORITIES_KEY).toString());
+    Claims claims = Jwts.parser().setSigningKey(properties.getJwtSecretKey()).parseClaimsJws(authToken).getBody();
+    GrantedAuthority authority = new SimpleGrantedAuthority(claims.get(AUTHORITIES_KEY).toString());
     Collection<GrantedAuthority> authorities = Collections.singleton(authority);
     User user = new User(claims.getSubject(), "", authorities);
-    return new UsernamePasswordAuthenticationToken(user, authToken,
-        authorities);
+    return new UsernamePasswordAuthenticationToken(user, authToken, authorities);
   }
 
   public String createToken(Authentication authentication) {
-    String authority = authentication.getAuthorities().iterator().next()
-        .toString();
+    String authority = authentication.getAuthorities().iterator().next().toString();
 
     long now = (new Date()).getTime();
     Date validity = new Date(now + (properties.getJwtValidity() * 1000));
 
-    return Jwts.builder().setSubject(authentication.getName())
-        .claim(AUTHORITIES_KEY, authority)
-        .signWith(SignatureAlgorithm.HS512, properties.getJwtSecretKey())
-        .setExpiration(validity).compact();
+    return Jwts.builder().setSubject(authentication.getName()).claim(AUTHORITIES_KEY, authority)
+        .signWith(SignatureAlgorithm.HS512, properties.getJwtSecretKey()).setExpiration(validity).compact();
   }
 }

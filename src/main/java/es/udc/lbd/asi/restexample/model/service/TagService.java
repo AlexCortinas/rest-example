@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.Tag;
-import es.udc.lbd.asi.restexample.model.repository.TagDAO;
+import es.udc.lbd.asi.restexample.model.repository.TagDao;
 import es.udc.lbd.asi.restexample.model.service.dto.TagDTO;
 
 @Service
@@ -17,10 +17,10 @@ import es.udc.lbd.asi.restexample.model.service.dto.TagDTO;
 public class TagService {
 
   @Autowired
-  private TagDAO tagDAO;
+  private TagDao tagDAO;
 
   public List<TagDTO> findAll() {
-    return tagDAO.findAll().stream().sorted(Comparator.comparing(Tag::getName))
-        .map(TagDTO::new).collect(Collectors.toList());
+    return tagDAO.findAll().stream().sorted(Comparator.comparing(Tag::getName)).map(TagDTO::new)
+        .collect(Collectors.toList());
   }
 }

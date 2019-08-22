@@ -29,7 +29,8 @@ import es.udc.lbd.asi.restexample.web.exception.CredentialsAreNotValidException;
 /**
  * Este controlador va por separado que el UserResource porque se encarga de
  * tareas relacionadas con la autenticación, registro, etc.
- * 
+ *
+ * <p>
  * También permite a cada usuario logueado en la aplicación obtener información
  * de su cuenta
  */
@@ -48,14 +49,12 @@ public class AccountResource {
   private UserService userService;
 
   @PostMapping("/authenticate")
-  public JWTToken authenticate(@Valid @RequestBody LoginDTO loginDTO)
-      throws CredentialsAreNotValidException {
+  public JWTToken authenticate(@Valid @RequestBody LoginDTO loginDTO) throws CredentialsAreNotValidException {
 
     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
         loginDTO.getLogin(), loginDTO.getPassword());
     try {
-      Authentication authentication = authenticationManager
-          .authenticate(authenticationToken);
+      Authentication authentication = authenticationManager.authenticate(authenticationToken);
       SecurityContextHolder.getContext().setAuthentication(authentication);
       String jwt = tokenProvider.createToken(authentication);
       HttpHeaders httpHeaders = new HttpHeaders();
@@ -73,8 +72,7 @@ public class AccountResource {
   }
 
   @PostMapping("/register")
-  public void registerAccount(@Valid @RequestBody UserDTOPrivate account)
-      throws UserLoginExistsException {
+  public void registerAccount(@Valid @RequestBody UserDTOPrivate account) throws UserLoginExistsException {
     userService.registerUser(account.getLogin(), account.getPassword());
   }
 }

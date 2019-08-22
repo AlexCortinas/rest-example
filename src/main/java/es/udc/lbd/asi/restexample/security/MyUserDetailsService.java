@@ -14,29 +14,25 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import es.udc.lbd.asi.restexample.model.domain.User;
-import es.udc.lbd.asi.restexample.model.repository.UserDAO;
+import es.udc.lbd.asi.restexample.model.repository.UserDao;
 
 @Component
 public class MyUserDetailsService implements UserDetailsService {
-  private final Logger logger = LoggerFactory
-      .getLogger(MyUserDetailsService.class);
+  private final Logger logger = LoggerFactory.getLogger(MyUserDetailsService.class);
 
   @Autowired
-  private UserDAO userDAO;
+  private UserDao userDAO;
 
   @Override
   @Transactional(readOnly = true)
-  public UserDetails loadUserByUsername(String login)
-      throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
     User user = userDAO.findByLogin(login);
     if (user == null) {
       throw new UsernameNotFoundException("User " + login + " not found");
     }
-    logger.info("Loaded user {} with authority {}", login,
-        user.getAuthority().name());
-    GrantedAuthority authority = new SimpleGrantedAuthority(
-        user.getAuthority().name());
-    return new org.springframework.security.core.userdetails.User(login,
-        user.getPassword(), Collections.singleton(authority));
+    logger.info("Loaded user {} with authority {}", login, user.getAuthority().name());
+    GrantedAuthority authority = new SimpleGrantedAuthority(user.getAuthority().name());
+    return new org.springframework.security.core.userdetails.User(login, user.getPassword(),
+        Collections.singleton(authority));
   }
 }

@@ -81,8 +81,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedMethods("*")
-            .allowedOrigins(properties.getClientHost());
+        registry.addMapping("/**").allowedMethods("*").allowedOrigins(properties.getClientHost());
       }
     };
   }
@@ -90,11 +89,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Autowired
   public void configureAuth(AuthenticationManagerBuilder auth) {
     try {
-      auth.userDetailsService(myUserDetailsService)
-          .passwordEncoder(passwordEncoder());
+      auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder());
     } catch (Exception e) {
-      throw new BeanInitializationException(
-          "SecurityConfiguration.configureAuth failed", e);
+      throw new BeanInitializationException("SecurityConfiguration.configureAuth failed", e);
     }
   }
 

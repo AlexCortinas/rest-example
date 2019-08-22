@@ -14,13 +14,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
-  private final Logger logger = LoggerFactory
-      .getLogger(MyAccessDeniedHandler.class);
+  private final Logger logger = LoggerFactory.getLogger(MyAccessDeniedHandler.class);
 
   @Override
   public void handle(HttpServletRequest request, HttpServletResponse response,
-      AccessDeniedException accessDeniedException)
-      throws IOException, ServletException {
+      AccessDeniedException accessDeniedException) throws IOException, ServletException {
 
     logger.debug("Access denied");
     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");

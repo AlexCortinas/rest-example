@@ -14,8 +14,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 
 @ControllerAdvice
 public class GlobalControllerExceptionHandler {
-  private final Logger logger = LoggerFactory
-      .getLogger(GlobalControllerExceptionHandler.class);
+  private final Logger logger = LoggerFactory.getLogger(GlobalControllerExceptionHandler.class);
 
   @ExceptionHandler(ResourceException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -28,8 +27,7 @@ public class GlobalControllerExceptionHandler {
   @ExceptionHandler(CredentialsAreNotValidException.class)
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ResponseBody
-  public ErrorDTO badCredentialsExceptionHandler(
-      CredentialsAreNotValidException e) {
+  public ErrorDTO badCredentialsExceptionHandler(CredentialsAreNotValidException e) {
     return new ErrorDTO("Bad Credentials");
   }
 

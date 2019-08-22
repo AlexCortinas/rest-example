@@ -20,7 +20,7 @@ public class Post {
 
   private String title;
 
-  @Column(length=10485760)
+  @Column(length = 10485760)
   private String body;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)

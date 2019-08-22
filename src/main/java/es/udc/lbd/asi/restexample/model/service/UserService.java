@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import es.udc.lbd.asi.restexample.model.domain.User;
 import es.udc.lbd.asi.restexample.model.domain.UserAuthority;
 import es.udc.lbd.asi.restexample.model.exception.UserLoginExistsException;
-import es.udc.lbd.asi.restexample.model.repository.UserDAO;
+import es.udc.lbd.asi.restexample.model.repository.UserDao;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPrivate;
 import es.udc.lbd.asi.restexample.model.service.dto.UserDTOPublic;
 import es.udc.lbd.asi.restexample.security.SecurityUtils;
@@ -24,23 +24,19 @@ public class UserService {
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  private UserDAO userDAO;
+  private UserDao userDAO;
 
   public List<UserDTOPublic> findAll() {
-    return userDAO.findAll().stream().map(user -> new UserDTOPublic(user))
-        .collect(Collectors.toList());
+    return userDAO.findAll().stream().map(user -> new UserDTOPublic(user)).collect(Collectors.toList());
   }
 
-  public void registerUser(String login, String password)
-      throws UserLoginExistsException {
+  public void registerUser(String login, String password) throws UserLoginExistsException {
     registerUser(login, password, false);
   }
 
-  public void registerUser(String login, String password, boolean isAdmin)
-      throws UserLoginExistsException {
+  public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
     if (userDAO.findByLogin(login) != null) {
-      throw new UserLoginExistsException(
-          "User login " + login + " already exists");
+      throw new UserLoginExistsException("User login " + login + " already exists");
     }
 
     User user = new User();
@@ -53,7 +49,7 @@ public class UserService {
       user.setAuthority(UserAuthority.ADMIN);
     }
 
-    userDAO.save(user);
+    userDAO.create(user);
   }
 
   public UserDTOPrivate getCurrentUserWithAuthority() {

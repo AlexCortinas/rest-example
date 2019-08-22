@@ -41,16 +41,14 @@ public class PostResource {
   }
 
   @PostMapping
-  public PostDTO save(@RequestBody @Valid PostDTO post, Errors errors)
-      throws RequestBodyNotValidException {
+  public PostDTO create(@RequestBody @Valid PostDTO post, Errors errors) throws RequestBodyNotValidException {
     errorHandler(errors);
-    return postService.save(post);
+    return postService.create(post);
   }
 
   @PutMapping("/{id}")
-  public PostDTO update(@PathVariable Long id, @RequestBody @Valid PostDTO post,
-      Errors errors) throws IdAndBodyNotMatchingOnUpdateException,
-      RequestBodyNotValidException {
+  public PostDTO update(@PathVariable Long id, @RequestBody @Valid PostDTO post, Errors errors)
+      throws IdAndBodyNotMatchingOnUpdateException, RequestBodyNotValidException {
     errorHandler(errors);
     if (id != post.getId()) {
       throw new IdAndBodyNotMatchingOnUpdateException(Post.class);
@@ -66,8 +64,7 @@ public class PostResource {
   private void errorHandler(Errors errors) throws RequestBodyNotValidException {
     if (errors.hasErrors()) {
       String errorMsg = errors.getFieldErrors().stream()
-          .map(fe -> String.format("%s.%s %s", fe.getObjectName(),
-              fe.getField(), fe.getDefaultMessage()))
+          .map(fe -> String.format("%s.%s %s", fe.getObjectName(), fe.getField(), fe.getDefaultMessage()))
           .collect(Collectors.joining("; "));
       throw new RequestBodyNotValidException(errorMsg);
     }
