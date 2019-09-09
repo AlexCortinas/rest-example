@@ -47,9 +47,11 @@ public class PostService {
   public PostDTO create(PostDTO post) {
     Post bdPost = new Post(post.getTitle(), post.getBody());
     bdPost.setAuthor(userDAO.findById(post.getAuthor().getId()));
-    post.getTags().forEach(tag -> {
-      bdPost.getTags().add(tagDAO.findById(tag.getId()));
-    });
+    if (post.getTags() != null) {
+      post.getTags().forEach(tag -> {
+        bdPost.getTags().add(tagDAO.findById(tag.getId()));
+      });
+    }
     postDAO.create(bdPost);
     return new PostDTO(bdPost);
   }
