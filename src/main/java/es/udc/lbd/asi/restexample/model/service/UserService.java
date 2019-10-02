@@ -30,10 +30,12 @@ public class UserService {
     return userDAO.findAll().stream().map(user -> new UserDTOPublic(user)).collect(Collectors.toList());
   }
 
+  @Transactional(readOnly = false)
   public void registerUser(String login, String password) throws UserLoginExistsException {
     registerUser(login, password, false);
   }
 
+  @Transactional(readOnly = false)
   public void registerUser(String login, String password, boolean isAdmin) throws UserLoginExistsException {
     if (userDAO.findByLogin(login) != null) {
       throw new UserLoginExistsException("User login " + login + " already exists");
